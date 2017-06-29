@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="pinup_price_purchase_form_view">
+            <field name="name">pinup_price_purchase.form</field>
+            <field name="model">pinup.price.purchase</field>
+            <field name="arch" type="xml">
+                <form string="pinup_price_purchase Form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="purchase_order_id"/>
+                                <field name="request_date"/>
+                                <field name="pinup_tons"/>
+                                <field name="price"/>
+                            </group>
+                            <group>
+                                <field name="tc"/>
+                                <field name="tc_date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="pinup_price_purchase_tree_view">
+            <field name="name">pinup_price_purchase.tree</field>
+            <field name="model">pinup.price.purchase</field>
+            <field name="arch" type="xml">
+                <tree string="pinup_price_purchase Tree">
+                    <field name="purchase_order_id"/>
+                    <field name="request_date"/>
+                    <field name="pinup_tons"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="pinup_price_purchase_list_action">
+            <field name="name">pinup_price_purchases</field>
+            <field name="res_model">pinup.price.purchase</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create the first pinup price purchase
+                </p>
+            </field>
+        </record>
+
+        <menuitem
+            id="menu_product_in_config_pinup_price_purchase"
+            name="pinup_price_purchases"
+            parent="purchase.menu_procurement_management_invoice"
+            sequence="95"
+            action="pinup_price_purchase_list_action"/>
+    </data>
+</openerp>
