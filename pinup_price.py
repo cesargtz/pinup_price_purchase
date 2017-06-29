@@ -20,9 +20,3 @@ class pinup_price_purchase(models.Model):
         tc = self.env['market.usd'].search([], order='date desc', limit=1)
         for ltc in tc:
             self.tc = ltc['exchange_rate']
-
-
-class pinup_price_purchase_inherit(models.Model):
-    _inherit = 'purchase.order'
-
-    pinup_price_purchase = fields.Many2one('pinup.price.purchase','purchase_order_id')
