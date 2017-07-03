@@ -1,23 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
+        <record id="seq_type_pinup_price" model="ir.sequence.type">
+          <field name="name">set price</field>
+          <field name="code">reg_code_price</field>
+        </record>
+        <record id="seq_pinup_price" model="ir.sequence">
+            <field name="name">reg set price</field>
+            <field name="code">reg_code_price</field>
+            <field name="prefix">SP</field>
+            <field name="padding">5</field>
+            <field name="implementation">no_gap</field>
+        </record>
+
         <record model="ir.ui.view" id="pinup_price_purchase_form_view">
             <field name="name">pinup_price_purchase.form</field>
             <field name="model">pinup.price.purchase</field>
             <field name="arch" type="xml">
                 <form string="pinup_price_purchase Form">
                     <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <label string="Set Price "/>
+                                <!-- <field name="name" class="oe_inline" readonly="1"/> -->
+                            </h1>
+                        </div>
                         <group>
-                            <group>
+                            <group col="2">
                                 <field name="purchase_order_id"/>
-                                <field name="request_date"/>
-                                <field name="pinup_tons"/>
-                                <field name="price"/>
+                                <field name="partner_id"/>
                             </group>
-                            <group>
+                            <group col="3">
+                                <field name="price_usd"/>
+                                <field name="price_date" nolabel="1"/>
                                 <field name="tc"/>
-                                <field name="tc_date"/>
+                                <field name="tc_date" nolabel="1"/>
+                                <!-- <field name="tc_date"/> -->
                             </group>
+                        </group>
+                        <group col="2">
+                            <field name="tons_reception"/>
+                        </group>
+                        <group col="4">
+                            <field name="request_date"/>
+                            <field name="pinup_tons"/>
                         </group>
                     </sheet>
                 </form>
@@ -25,7 +51,7 @@
         </record>
 
         <record model="ir.ui.view" id="pinup_price_purchase_tree_view">
-            <field name="name">pinup_price_purchase.tree</field>
+            <field name="name">pinup price purchase tree</field>
             <field name="model">pinup.price.purchase</field>
             <field name="arch" type="xml">
                 <tree string="pinup_price_purchase Tree">
@@ -37,20 +63,20 @@
         </record>
 
         <record model="ir.actions.act_window" id="pinup_price_purchase_list_action">
-            <field name="name">pinup_price_purchases</field>
+            <field name="name">Set Price Contract</field>
             <field name="res_model">pinup.price.purchase</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    Create the first pinup price purchase
+                    set price purchase
                 </p>
             </field>
         </record>
 
         <menuitem
             id="menu_product_in_config_pinup_price_purchase"
-            name="pinup_price_purchases"
+            name="set price"
             parent="purchase.menu_procurement_management_invoice"
             sequence="95"
             action="pinup_price_purchase_list_action"/>
