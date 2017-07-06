@@ -4,6 +4,7 @@ from openerp import models, fields, api, exceptions
 import psycopg2
 
 class pinup_price_purchase(models.Model):
+    _inherit = ['mail.thread']
     _name = 'pinup.price.purchase'
 
 
@@ -21,30 +22,31 @@ class pinup_price_purchase(models.Model):
     price_date = fields.Char(compute="_compute_price_date", store=True)
     tons_reception = fields.Float(compute="_compute_tr", digits=(12,3) ,  store=True)
     tons_invoiced = fields.Float(compute="_compute_ti", digits=(12,3) ,  store=True)
-
+    tons_priced = fields.Float(compute="_compute_priced", digits=(12,3) ,  store=True)
+    set_price = fields.Float(required=True)
     state = fields.Selection([
-        ('set', "Set"),
-        ('valued', "Valued"),
-    ], default='set')
+        ('draft', "Draft"),
+        ('confirmed', "Confirmed"),
+    ], default='draft')
 
 
-    _sql_constraints = [
-            ('set_price_constrain',
-            'CHECK(pinup_tons > tons_reception)',
-            "You want to bill more tons than you have delivered"),
-    ]
-
-    @api.multi
-    def action_set(self):
-        self.state = 'set'
+    # _sql_constraints = [
+    #         ('set_price_constrain',
+    #         'CHECK(pinup_tons > tons_available)',
+    #         "You want to bill more tons than you have delivered"),
+    # ]
 
     @api.multi
-    def action_valued(self):
-        self.state = 'valued'
+    def action_draft(self):
+        self.state = 'draft'
+
+    @api.multi
+    def action_confirmed(self):
+        self.state = 'confirmed'
 
     @api.constrains('pinup_tons','tons_reception','tons_invoiced')
     def _check_tons(self):
-        tons_available = self.tons_reception - self.tons_invoiced
+        tons_available = self.tons_reception - self.tons_priced
         if self.pinup_tons > tons_available:
             raise exceptions.ValidationError("You want to bill more tons than you have available")
 
@@ -65,7 +67,6 @@ class pinup_price_purchase(models.Model):
             self.tons_invoiced = tons_billing
         else:
             self.tons_invoiced = 0
-
 
     @api.one
     @api.depends('purchase_order_id')
@@ -100,3 +101,9 @@ class pinup_price_purchase(models.Model):
         mp = self.env['market.price'].search([], order='id desc', limit=1)
         for lmp in mp:
             self.price_usd = lmp['price_ton']
+
+    @api.one
+    @api.depends('purchase_order_id')
+    def _compute_priced(self):
+        for line in self.env['pinup.price.purchase'].search([('purchase_order_id', '=', self.purchase_order_id.name)]):
+            self.tons_priced += line.pinup_tons

@@ -19,10 +19,10 @@
             <field name="arch" type="xml">
                 <form string="pinup_price_purchase Form">
                     <header>
-                        <button name="action_set" type="object" string="Set"
-                             states="valued" />
-                        <button name="action_valued" type="object" string="Valued"
-                             states="set" class="oe_highlight"/>
+                        <button name="action_draft" type="object" string="Draft"
+                             states="confirmed" />
+                        <button name="action_confirmed" type="object" string="Confirmed"
+                             states="draft" class="oe_highlight"/>
                         <field name="state" widget="statusbar" readonly="1"/>
                     </header>
                     <sheet>
@@ -34,7 +34,7 @@
                         </div>
                         <group>
                             <group col="2">
-                                <field name="purchase_order_id" attrs="{'readonly':[('state', 'in', ['valued'])]}"/>
+                                <field name="purchase_order_id" attrs="{'readonly':[('state', 'in', ['confirmed'])]}"/>
                                 <field name="partner_id"/>
                             </group>
                             <group col="3">
@@ -49,15 +49,29 @@
                             <group col="2">
                                 <field name="tons_reception"/>
                             </group>
-                            <group col="2">\
+                            <!-- <group col="2">
                                 <field name="tons_invoiced"/>
+                            </group> -->
+                            <group col="2">
+                                <field name="tons_priced"/>
                             </group>
                         </group>
-                        <group col="4">
-                            <field name="request_date" attrs="{'readonly':[('state', 'in', ['valued'])]}"/>
-                            <field name="pinup_tons" attrs="{'readonly':[('state', 'in', ['valued'])]}"/>
+                        <group col="3">
+                            <group>
+                                <field name="request_date"  attrs="{'readonly':[('state', 'in', ['confirmed'])]}" />
+                            </group>
+                            <group>
+                                <field name="set_price"  attrs="{'readonly':[('state', 'in', ['confirmed'])]}"/>
+                            </group>
+                            <group>
+                                <field name="pinup_tons" attrs="{'readonly':[('state', 'in', ['confirmed'])]}"/>
+                            </group>
                         </group>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>
