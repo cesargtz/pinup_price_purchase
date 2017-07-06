@@ -30,12 +30,6 @@ class pinup_price_purchase(models.Model):
     ], default='draft')
 
 
-    # _sql_constraints = [
-    #         ('set_price_constrain',
-    #         'CHECK(pinup_tons > tons_available)',
-    #         "You want to bill more tons than you have delivered"),
-    # ]
-
     @api.multi
     def action_draft(self):
         self.state = 'draft'
