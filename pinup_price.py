@@ -40,7 +40,6 @@ class pinup_price_purchase(models.Model):
     @api.constrains('pinup_tons')
     def _check_tons(self):
         tons_available = self.tons_reception + self.pinup_tons - self.tons_priced
-        print (tons_available)
         if self.pinup_tons > tons_available:
             raise exceptions.ValidationError("You want to bill more tons than you have available")
 
