@@ -191,7 +191,7 @@ msgstr "Preciar Contratos"
 #. module: pinup_price_purchase
 #: field:pinup.price.purchase,name:0
 msgid "Set Price Reference"
-msgstr "Set Price Reference"
+msgstr "Nombre"
 
 #. module: pinup_price_purchase
 #: field:pinup.price.purchase,state:0
