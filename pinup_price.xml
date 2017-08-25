@@ -45,24 +45,32 @@
                                 <!-- <field name="tc_date"/> -->
                             </group>
                         </group>
-                        <group>
-                            <group col="2">
+                        <group col="3">
+                          <group>
+                              <field name="tons_contract"  readonly="1" />
+                          </group>
+                            <group>
                                 <field name="tons_reception"/>
                             </group>
-                            <!-- <group col="2">
-                                <field name="tons_invoiced"/>
-                            </group> -->
-                            <group col="2">
+                            <group>
                                 <field name="tons_priced"/>
                             </group>
                         </group>
                         <group col="3">
                             <group>
-                                <field name="request_date"  attrs="{'readonly':[('state', 'in', ['confirmed'])]}" />
+                                <field name="price_usd_mn"/>
                             </group>
                             <group>
-                                <field name="set_price"  attrs="{'readonly':[('state', 'in', ['confirmed'])]}"/>
+                                <field name="tc_mn"/>
                             </group>
+                            <group>
+                                <field name="price_mx"  readonly="1" />
+                            </group>
+                        </group>
+                        <group col="2">
+                          <group>
+                              <field name="request_date"  attrs="{'readonly':[('state', 'in', ['confirmed'])]}" />
+                          </group>
                             <group>
                                 <field name="pinup_tons" attrs="{'readonly':[('state', 'in', ['confirmed'])]}"/>
                             </group>
